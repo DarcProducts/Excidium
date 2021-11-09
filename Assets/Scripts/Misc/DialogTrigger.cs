@@ -12,6 +12,7 @@ public class DialogTrigger : MonoBehaviour
     [SerializeField] TMP_Text mainText;
     [SerializeField] TMP_Text specialText;
     [SerializeField] float textCharDelay;
+    float currentTextDelay;
     [SerializeField] float specialTextDelay;
     [SerializeField] float dialogDistanceAboveTrigger;
     [SerializeField] bool stickToPlayer = true;
@@ -28,6 +29,8 @@ public class DialogTrigger : MonoBehaviour
 
     void Start()
     {
+        currentTextDelay = textCharDelay;
+        player = GameObject.FindWithTag("Player");
         specialText.enabled = false;
         dialogCanvas.SetActive(false);
         dialogQueue.Clear();
@@ -39,9 +42,12 @@ public class DialogTrigger : MonoBehaviour
     {
         StartCoroutine(nameof(StartDialog));
         GetComponent<Collider2D>().enabled = false;
+        player.GetComponent<Rigidbody2D>().Sleep();
         canMove.Value = false;
         stopLocation = other.transform.position;
     }
+
+    public void ResetTextSpeed() => currentTextDelay = textCharDelay;
 
     void Update()
     {
@@ -58,6 +64,7 @@ public class DialogTrigger : MonoBehaviour
             mainText.text = "";
             dialogCanvas.SetActive(false);
             canMove.Value = true;
+            player.GetComponent<Rigidbody2D>().WakeUp();
         }
     }
 
@@ -77,7 +84,7 @@ public class DialogTrigger : MonoBehaviour
                 mainText.text += c;
                 textAudioSource.volume = textClipVolume;
                 textAudioSource.PlayOneShot(textAudioClip);
-                yield return new WaitForSeconds(textCharDelay);
+                yield return new WaitForSeconds(currentTextDelay);
             }
             yield return new WaitForSeconds(specialTextDelay);
             canUseAction.Value = true;
@@ -85,7 +92,7 @@ public class DialogTrigger : MonoBehaviour
             textAudioSource.PlayOneShot(specialTextClip);
         }
     }
-
+    
     void OnDrawGizmos()
     {
         Gizmos.color = Color.yellow;
