@@ -26,6 +26,7 @@ public class DialogTrigger : MonoBehaviour
     [SerializeField] GlobalBool canMove;
     [SerializeField] GlobalBool actionPressed;
     [SerializeField] GlobalBool canUseAction;
+    bool isInRange = false;
 
     void Start()
     {
@@ -45,6 +46,12 @@ public class DialogTrigger : MonoBehaviour
         player.GetComponent<Rigidbody2D>().Sleep();
         canMove.Value = false;
         stopLocation = other.transform.position;
+        isInRange = true;
+    }
+
+    void OnTriggerExit2D(Collider2D collision)
+    {
+        isInRange = false;
     }
 
     public void ResetTextSpeed() => currentTextDelay = textCharDelay;
@@ -53,7 +60,7 @@ public class DialogTrigger : MonoBehaviour
     {
         if (stickToPlayer && player != null)
             dialogCanvas.transform.position = player.transform.position + Vector3.up * dialogDistanceAboveTrigger;
-        if (actionPressed.Value && dialogQueue.Count > 0)
+        if (isInRange && actionPressed.Value && dialogQueue.Count > 0)
         {
             actionPressed.Value = false;
             StartCoroutine(nameof(StartDialog));
@@ -65,6 +72,11 @@ public class DialogTrigger : MonoBehaviour
             dialogCanvas.SetActive(false);
             canMove.Value = true;
             player.GetComponent<Rigidbody2D>().WakeUp();
+            StopCoroutine(nameof(StartDialog));
+        }
+        else
+        {
+            // do nothing
         }
     }
 
