@@ -15,6 +15,7 @@ public class DialogTrigger : MonoBehaviour
     float currentTextDelay;
     [SerializeField] float specialTextDelay;
     [SerializeField] float dialogDistanceAboveTrigger;
+    [SerializeField] bool haultPlayer = true;
     [SerializeField] bool stickToPlayer = true;
     [SerializeField] GameObject player;
     [SerializeField] AudioSource textAudioSource;
@@ -27,6 +28,8 @@ public class DialogTrigger : MonoBehaviour
     [SerializeField] GlobalBool actionPressed;
     [SerializeField] GlobalBool canUseAction;
     bool isInRange = false;
+    [SerializeField] bool useSpecialText;
+    [SerializeField] string specialMessage;
 
     void Start()
     {
@@ -37,16 +40,24 @@ public class DialogTrigger : MonoBehaviour
         dialogQueue.Clear();
         foreach (string s in dialog)
             dialogQueue.Enqueue(s);
+        if (!useSpecialText)
+            specialText.gameObject.SetActive(false);
+        else
+            specialText.text = specialMessage;
     }
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        StartCoroutine(nameof(StartDialog));
-        GetComponent<Collider2D>().enabled = false;
-        player.GetComponent<Rigidbody2D>().Sleep();
-        canMove.Value = false;
-        stopLocation = other.transform.position;
-        isInRange = true;
+        if (other.CompareTag("Player"))
+        {
+            StartCoroutine(nameof(StartDialog));
+            GetComponent<Collider2D>().enabled = false;
+            player.GetComponent<Rigidbody2D>().Sleep();
+            if (haultPlayer)
+                canMove.Value = false;
+            stopLocation = other.transform.position;
+            isInRange = true;
+        }
     }
 
     void OnTriggerExit2D(Collider2D collision)
@@ -70,7 +81,8 @@ public class DialogTrigger : MonoBehaviour
             actionPressed.Value = false;
             mainText.text = "";
             dialogCanvas.SetActive(false);
-            canMove.Value = true;
+            if (haultPlayer)
+                canMove.Value = true;
             player.GetComponent<Rigidbody2D>().WakeUp();
             StopCoroutine(nameof(StartDialog));
         }

@@ -4,51 +4,48 @@ using UnityEngine;
 
 public class PlayerAnimator : MonoBehaviour
 {
-    [SerializeField] enum PlayerAnimateState { idle, attack, moveRight, moveLeft, jump, fall }
-    [SerializeField] PlayerAnimateState state = PlayerAnimateState.idle;
+    [SerializeField] enum PlayerAnimateState { Idle, Attack, MoveRight, MoveLeft, Jump, Fall }
+    [SerializeField] PlayerAnimateState state = PlayerAnimateState.Idle;
     [SerializeField] GlobalVector2 movement;
     [SerializeField] GlobalBool hasJumped;
-    [SerializeField] AnimatorTrigger idleTrigger;
-    [SerializeField] AnimatorTrigger jumpTrigger;
-    [SerializeField] AnimatorTrigger fallTrigger;
-    [SerializeField] AnimatorTrigger attackTrigger;
-    [SerializeField] AnimatorTrigger walkRightTrigger;
-    [SerializeField] AnimatorTrigger walkLeftTrigger;
+    [SerializeField] string idleName, attackName, moveRightName, moveLeftName, jumpName, fallName;
+    [SerializeField] Animator playerAnimator;
 
     void Update()
     {
         Vector2 m = movement.Value;
         
         if (m.x.Equals(-1))
-            state = PlayerAnimateState.moveLeft;
+            state = PlayerAnimateState.MoveLeft;
         else if (m.x.Equals(1))
-            state = PlayerAnimateState.moveRight;
+            state = PlayerAnimateState.MoveRight;
 
         if (m.x.Equals(0))
-            state = PlayerAnimateState.idle;
+            state = PlayerAnimateState.Idle;
         if (hasJumped.Value.Equals(true))
-            state = PlayerAnimateState.jump;
+            state = PlayerAnimateState.Jump;
         if (movement.Value.y.Equals(-1))
-            state = PlayerAnimateState.fall;
+            state = PlayerAnimateState.Fall;
 
         switch (state)
         {
-            case PlayerAnimateState.idle:
-                idleTrigger.Trigger();
+            case PlayerAnimateState.Idle:
+                playerAnimator.SetTrigger(idleName);
                 break;
-            case PlayerAnimateState.attack:
+            case PlayerAnimateState.Attack:
+                playerAnimator.SetTrigger(attackName);
                 break;
-            case PlayerAnimateState.moveRight:
-                walkRightTrigger.Trigger();
+            case PlayerAnimateState.MoveRight:
+                playerAnimator.SetTrigger(moveRightName);
                 break;
-            case PlayerAnimateState.moveLeft:
-                walkLeftTrigger.Trigger();
+            case PlayerAnimateState.MoveLeft:
+                playerAnimator.SetTrigger(moveLeftName);
                 break;
-            case PlayerAnimateState.jump:
-                jumpTrigger.Trigger();
+            case PlayerAnimateState.Jump:
+                playerAnimator.SetTrigger(jumpName);
                 break;
-            case PlayerAnimateState.fall:
-                fallTrigger.Trigger();
+            case PlayerAnimateState.Fall:
+                playerAnimator.SetTrigger(fallName);
                 break;
         }
     }
