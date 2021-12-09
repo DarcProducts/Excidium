@@ -1,30 +1,24 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class PussSack : MonoBehaviour
+public class PussSack : MonoBehaviour, ICauseDamage
 {
     [SerializeField] float duration;
     float currentDuration;
     SpriteRenderer sRend;
+    [SerializeField] float touchedDamage;
     [SerializeField] Sprite startSprite;
     [SerializeField] Sprite fillingSprite1;
     [SerializeField] Sprite fillingSprite2;
     [SerializeField] Sprite openSprite;
-    [SerializeField] GameObject puss;
+    [SerializeField] ObjectPool pussPool;
     [SerializeField] float pussForce;
     [SerializeField] Vector2 pussDirection;
+    [Range(0f, 1f)] [SerializeField] float hitMagnitude;
 
 
-    void Awake()
-    {
-        sRend = GetComponent<SpriteRenderer>();
-    }
+    void Awake() => sRend = GetComponent<SpriteRenderer>();
 
-    void Start()
-    {
-        currentDuration = duration;
-    }
+    void Start() => currentDuration = duration;
 
     void FixedUpdate()
     {
@@ -41,11 +35,19 @@ public class PussSack : MonoBehaviour
 
         if (currentDuration.Equals(0))
         {
-            GameObject p = Instantiate(puss, transform.position, Quaternion.identity);
+            GameObject p = pussPool.GetObject();
+            p.transform.position = transform.position;
+            p.SetActive(true);
             Rigidbody2D pRB = p.GetComponent<Rigidbody2D>();
             if (pRB != null)
                 pRB.AddForce(pussForce * pussDirection, ForceMode2D.Impulse);
             currentDuration = duration;
         }
     }
- }
+
+    public float GetDamage()
+    {
+        CameraShaker.S.Trigger(hitMagnitude);
+       return touchedDamage;
+    }
+}

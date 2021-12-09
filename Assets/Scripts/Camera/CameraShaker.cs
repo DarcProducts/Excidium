@@ -5,8 +5,8 @@ using UnityEngine;
 public class CameraShaker : MonoBehaviour
 {
     public static CameraShaker S = null;
-    [Range(0f, 1f)] [SerializeField] float magnitude;
     float currentTime;
+    float currentMagnitude;
     Vector3 cameraOriginalPos;
     Vector3 newFactor = Vector3.zero;
     bool shakeCamera;
@@ -17,7 +17,7 @@ public class CameraShaker : MonoBehaviour
 
     void OnEnable()
     {
-        currentTime = magnitude * 2;
+        currentTime = currentMagnitude;
         cameraOriginalPos = transform.localPosition;
     }
 
@@ -26,16 +26,21 @@ public class CameraShaker : MonoBehaviour
         currentTime = currentTime < 0 ? 0 : currentTime -= Time.fixedDeltaTime;
         if (currentTime > 0 && shakeCamera)
         {
-            newFactor = cameraOriginalPos + (Vector3)Random.insideUnitCircle * magnitude;
+            newFactor = cameraOriginalPos + (Vector3)Random.insideUnitCircle * currentMagnitude;
             transform.localPosition = newFactor;
-            transform.rotation = transform.rotation *= Quaternion.Euler(newFactor * magnitude);
+            transform.rotation = transform.rotation *= Quaternion.Euler(newFactor * currentMagnitude);
         }
     }
 
     [ContextMenu("Trigger Camera Shake")]
-    public void Trigger() => StartCoroutine(ShakeCamera());
+    public void Trigger(float magnitude) 
+    {
+        float clampedMag = Mathf.Clamp01(magnitude);
+        currentMagnitude = clampedMag;
+        StartCoroutine(ShakeCamera(clampedMag));
+    }
 
-    IEnumerator ShakeCamera()
+    IEnumerator ShakeCamera(float magnitude)
     {
         if (!hasPosition)
         {

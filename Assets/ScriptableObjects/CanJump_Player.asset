@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: CanJump_Player
   m_EditorClassIdentifier: 
   currentValue: 1
-  broadcastOnValueChange: 0
+  broadcastOnValueChange: 1
   reset: 1
   resetValue: 1

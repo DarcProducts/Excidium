@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: IsMoving_Player
   m_EditorClassIdentifier: 
   currentValue: 0
-  broadcastOnValueChange: 0
+  broadcastOnValueChange: 1
   reset: 1
   resetValue: 0

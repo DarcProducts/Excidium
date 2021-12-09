@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 9086081057344560120}
   - component: {fileID: -8891784588109717975}
   - component: {fileID: 1207780046}
+  - component: {fileID: 909139104318274883}
   m_Layer: 0
   m_Name: PlayerDeadBones
   m_TagString: Untagged
@@ -143,3 +144,16 @@ PolygonCollider2D:
       - {x: 0.19382142, y: -0.06205605}
       - {x: 0.15820916, y: 0.062278017}
       - {x: 0.100071415, y: 0.13982396}
+--- !u!114 &909139104318274883
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5429022461350307393}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 219de8e4f8754f247ae6e58c0a8a216c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  timeToDestroy: 10

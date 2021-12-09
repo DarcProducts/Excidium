@@ -321,6 +321,28 @@
                 },
                 {
                     "name": "",
+                    "id": "9f642b26-c0be-4248-ba82-6e6e2249f6fa",
+                    "path": "<Keyboard>/upArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "Jump",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "07e76087-4c25-425e-94c1-9aaaa97ea99e",
+                    "path": "<Keyboard>/w",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Jump",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "f5585a47-fd0b-46a1-b76d-fd1409c0215c",
                     "path": "<Keyboard>/e",
                     "interactions": "",
