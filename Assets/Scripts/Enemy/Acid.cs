@@ -7,6 +7,7 @@ public class Acid : MonoBehaviour
     [SerializeField] Vector2 amountToSpawn;
     [SerializeField] Vector2 minMaxSize;
     [SerializeField] Vector2 acidDuration;
+    public GameObject launchedFrom;
     Rigidbody2D rb;
     void Awake() 
     {
@@ -15,7 +16,9 @@ public class Acid : MonoBehaviour
     }
 
     void OnCollisionEnter2D(Collision2D other) {
-        if (other.gameObject.CompareTag("PussSack")) return;
+        if (launchedFrom != null) 
+            if (other.gameObject == launchedFrom) 
+                return;
         Vector2 currentVelocity = rb.velocity;
         if (other.gameObject.CompareTag("Player"))
         {

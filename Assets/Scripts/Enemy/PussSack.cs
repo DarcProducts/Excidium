@@ -1,3 +1,4 @@
+using System.Globalization;
 using UnityEngine;
 
 public class PussSack : MonoBehaviour, ICauseDamage
@@ -13,6 +14,7 @@ public class PussSack : MonoBehaviour, ICauseDamage
     [SerializeField] ObjectPool pussPool;
     [SerializeField] float pussForce;
     [SerializeField] Vector2 pussDirection;
+    [SerializeField] Vector2 pussSize;
     [Range(0f, 1f)] [SerializeField] float hitMagnitude;
 
 
@@ -36,18 +38,27 @@ public class PussSack : MonoBehaviour, ICauseDamage
         if (currentDuration.Equals(0))
         {
             GameObject p = pussPool.GetObject();
+            float pSize = Random.Range(Mathf.Min(pussSize.x, pussSize.y), Mathf.Max(pussSize.x, pussSize.y));
+            p.transform.localScale = Vector3.one * pSize;
+            Acid a = p.GetComponent<Acid>();
+            float rotDir = Random.Range(-Mathf.Abs(pussDirection.x), Mathf.Abs(pussDirection.x));
+            if (a != null)
+                a.launchedFrom = this.gameObject;
             p.transform.position = transform.position;
             p.SetActive(true);
             Rigidbody2D pRB = p.GetComponent<Rigidbody2D>();
             if (pRB != null)
+            {
                 pRB.AddForce(pussForce * pussDirection, ForceMode2D.Impulse);
+                pRB.AddTorque(rotDir * Mathf.Pow(pussForce, 2));
+            }
             currentDuration = duration;
         }
     }
 
     public float GetDamage()
     {
-        CameraShaker.S.Trigger(hitMagnitude);
+       CameraShaker.S.Trigger(hitMagnitude);
        return touchedDamage;
     }
 }

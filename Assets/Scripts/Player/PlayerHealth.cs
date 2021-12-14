@@ -1,3 +1,4 @@
+using System.Threading;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
@@ -15,7 +16,8 @@ public class PlayerHealth : MonoBehaviour
     [SerializeField] GameObject midBody;
     [SerializeField] GameObject tail;
     [SerializeField] float playerSpawnDelay = 3f;
-    [SerializeField] UnityEvent<GameObject> OnDied;
+    public static UnityAction OnDied;
+    public static UnityAction OnStart;
     bool isImmune = false;
     float _currentHealth;
     public float health => _currentHealth;
@@ -39,6 +41,7 @@ public class PlayerHealth : MonoBehaviour
     {
          _currentHealth = maxHealth;
         originalColor = sRend.color;
+        OnStart?.Invoke();
     }
 
     void OnEnable() => KillPlayer += Death;
@@ -47,27 +50,30 @@ public class PlayerHealth : MonoBehaviour
 
     public void DamageHealth(float amount)
     {
-        if (!isImmune)
-        {
-            _currentHealth -= amount;
+         _currentHealth -= amount;
 
         if (_currentHealth < maxHealth / 8)
-            {
-                if (Random.value > .5f)
-                    leftEye.SetActive(false);
-                else
-                    rightEye.SetActive(false);
-            }
+        {
+            if (Random.value > .5f)
+                leftEye.SetActive(false);
+            else
+                rightEye.SetActive(false);
+        } 
+        else
+        {
+            leftEye.SetActive(true);
+            rightEye.SetActive(true);
+        }
             
         if (_currentHealth <= 0)
             Death();
-        }
     }
 
     public void SetMaxHealth(float newValue) => maxHealth = newValue;
 
     public void Death()
     {
+        OnDied?.Invoke();
         if (!hasDied)
         {
             hasDied = true;
@@ -81,6 +87,7 @@ public class PlayerHealth : MonoBehaviour
         midBody.SetActive(false);
         tail.SetActive(false);
         CameraFollow.S.NullTarget();
+        DialogManager.S.ClearDialog();
         if (!spawnedPlayer)
         {
             spawnedPlayer = true;
@@ -98,30 +105,34 @@ public class PlayerHealth : MonoBehaviour
 
     void ResetGame() => SceneManager.LoadScene("Body");
 
-    void OnCollisionEnter2D(Collision2D other) {
+    void OnCollisionStay2D(Collision2D other) {
         ICauseDamage damage = other.gameObject.GetComponent<ICauseDamage>();
         if (damage != null)
         {
-            DamageHealth(damage.GetDamage());
             if (!isImmune)
             {
-                isImmune = true;
                 if (gameObject.activeInHierarchy)
+                {
+                    isImmune = true;
+                    DamageHealth(damage.GetDamage());
                     StartCoroutine(nameof(WasHit));
+                }
             }
         }
     }
 
-    void OnTriggerEnter2D(Collider2D other) {
+    void OnTriggerStay2D(Collider2D other) {
         ICauseDamage damage = other.GetComponent<ICauseDamage>();
         if (damage != null)
         {
-            DamageHealth(damage.GetDamage());
             if (!isImmune)
             {
-                isImmune = true;
                 if (gameObject.activeInHierarchy)
+                {
+                    isImmune = true;
+                    DamageHealth(damage.GetDamage());
                     StartCoroutine(nameof(WasHit));
+                }
             }
         }
     }

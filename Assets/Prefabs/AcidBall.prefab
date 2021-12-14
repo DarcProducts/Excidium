@@ -74,7 +74,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 400
   m_Sprite: {fileID: 21300000, guid: a9dabc0bfc5589240a7e867fc2fb8fe5, type: 3}
   m_Color: {r: 1, g: 1, b: 0.6156863, a: 0.23529412}
   m_FlipX: 0
@@ -136,6 +136,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   acidDummyPool: {fileID: 0}
-  amountToSpawn: {x: 2, y: 12}
+  amountToSpawn: {x: 8, y: 16}
   minMaxSize: {x: 0.1, y: 0.4}
-  acidDuration: {x: 0.1, y: 1}
+  acidDuration: {x: 0.2, y: 0.8}
+  launchedFrom: {fileID: 0}

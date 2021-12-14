@@ -11,14 +11,12 @@ public class DialogManager : MonoBehaviour
     [SerializeField] float messageTime;
     bool hasStarted = false;
     float _currentTime;
-    [SerializeField] Queue<DialogString> dialogQueue = new Queue<DialogString>();
-
+    [SerializeField] Queue<Dialog> dialogQueue = new Queue<Dialog>();
+    [SerializeField] AudioSource dialogAudioSource;
 
     void Awake() => S = this;
 
-    void Start() {
-        dialogGameObject.SetActive(false);
-    }
+    void Start() => dialogGameObject.SetActive(false);
 
     void Update()
     {
@@ -30,16 +28,24 @@ public class DialogManager : MonoBehaviour
 
     void HideDialogBox() => dialogGameObject.SetActive(false);
 
-    public void AddMessage(DialogString message) => dialogQueue.Enqueue(message);
+    public void AddMessage(Dialog message) => dialogQueue.Enqueue(message);
 
+    public void ClearDialog() => dialogQueue.Clear();
 
     IEnumerator DisplayMessage()
     {
         hasStarted = true;
         ShowDialogBox();
-        DialogString message = dialogQueue.Dequeue();
+        Dialog message = dialogQueue.Dequeue();
+        AudioClip clip = message.clip;
         dialogText.text = message.dialog;
-        yield return new WaitForSeconds(message.displayLength);
+        if (clip != null)
+        {
+            message.TriggerAudio(dialogAudioSource);
+            yield return new WaitForSeconds(message.clip.length);
+        }
+        else
+            yield return new WaitForSeconds(messageTime);
         HideDialogBox();
         hasStarted = false;
     }

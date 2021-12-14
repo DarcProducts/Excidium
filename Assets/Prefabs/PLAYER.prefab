@@ -106,9 +106,9 @@ CircleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: -0.03}
+  m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 0.3
+  m_Radius: 0.28
 --- !u!50 &7231371578558481662
 Rigidbody2D:
   serializedVersion: 4
@@ -235,6 +235,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   immuneDuration: 0.5
   onHitColor: {r: 1, g: 0.980219, b: 0.7216981, a: 1}
+  hitBlinkTime: 0.2
   maxHealth: 10
   deathObject: {fileID: 5429022461350307393, guid: 11567082dc99de143ae596def8c6d069,
     type: 3}
@@ -258,6 +259,22 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
+  OnStart:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  _currentHealth: 0
 --- !u!114 &7231371578558481656
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -293,6 +310,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 2056
   groundCheckDistance: 0.68
+  movement: {x: 0, y: 0}
   canMove: {fileID: 11400000, guid: ae1deb35d60e97d498318fce511eea4a, type: 2}
   canJump: {fileID: 11400000, guid: b830316ae84ddce4495410c36fdd808b, type: 2}
   justJumped: {fileID: 11400000, guid: ee4094913401de74db0a254556ee3817, type: 2}
@@ -317,8 +335,6 @@ MonoBehaviour:
   blinkEyes:
   - {fileID: 11400000, guid: ee4094913401de74db0a254556ee3817, type: 2}
   - {fileID: 11400000, guid: 63b0f8c98d8c7354eb404c2fd2f8c9ff, type: 2}
-  blinkLeftEye: []
-  blinkRightEye: []
 --- !u!1 &7231371578898529174
 GameObject:
   m_ObjectHideFlags: 0
@@ -738,7 +754,7 @@ HingeJoint2D:
   m_BreakTorque: Infinity
   m_AutoConfigureConnectedAnchor: 1
   m_Anchor: {x: 0.2, y: 0}
-  m_ConnectedAnchor: {x: -0.15000007, y: 0.0000000065567107}
+  m_ConnectedAnchor: {x: -0.15, y: 0.000000006556708}
   m_UseMotor: 0
   m_Motor:
     m_MotorSpeed: 0

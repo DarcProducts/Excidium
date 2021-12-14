@@ -72,7 +72,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 200
   m_Sprite: {fileID: 21300000, guid: 4e64e04c3cc664540ada4759f05e790a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -97,10 +97,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   duration: 3
+  touchedDamage: 2
   startSprite: {fileID: 21300000, guid: 4e64e04c3cc664540ada4759f05e790a, type: 3}
   fillingSprite1: {fileID: 21300000, guid: ec5c49466600bdc48836d05a815ca02e, type: 3}
   fillingSprite2: {fileID: 21300000, guid: 652b0d44b7ea45941a7f84d271883ea4, type: 3}
   openSprite: {fileID: 21300000, guid: 8187aedbe96b75f48a60d74ceda61dfb, type: 3}
-  puss: {fileID: 4232659037105722900, guid: cbd6ce16c88be33438b14fd10f67ea3b, type: 3}
+  pussPool: {fileID: 0}
   pussForce: 6
   pussDirection: {x: 1, y: 1}
+  hitMagnitude: 0

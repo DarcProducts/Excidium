@@ -9,8 +9,7 @@ public class PolyPad : MonoBehaviour
         {
             Rigidbody2D playerRB = other.gameObject.GetComponent<Rigidbody2D>();
             Vector2 veloc = playerRB.velocity;
-            if (veloc.y < 0)
-                playerRB.AddForce(veloc.normalized + Vector2.up  * bounceForce, ForceMode2D.Impulse);
+            playerRB.AddForce(veloc.normalized + Vector2.up  * bounceForce, ForceMode2D.Impulse);
         }
     }
 }

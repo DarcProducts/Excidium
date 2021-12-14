@@ -2,7 +2,7 @@ using System.Collections;
 using UnityEngine;
 
 public class AcidDummy : MonoBehaviour
-{
+{    
     [HideInInspector]
     public Vector2 duration;
 
