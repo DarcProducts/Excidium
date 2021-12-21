@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 7231371578558481657}
   - component: {fileID: 7231371578558481656}
   - component: {fileID: 7231371578558481658}
-  - component: {fileID: 7231371578558481659}
+  - component: {fileID: 2582221314626320339}
   m_Layer: 6
   m_Name: PLAYER
   m_TagString: Player
@@ -83,7 +83,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 7f28680789c1a294ba7bbdeb09e5116e, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.1254902, g: 0.1254902, b: 0.1254902, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -125,7 +125,7 @@ Rigidbody2D:
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 0accc6043dc7d654889df031612780f9, type: 2}
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
@@ -233,48 +233,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e497b841541b62e418b8634248e92c44, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  immuneDuration: 0.5
-  onHitColor: {r: 1, g: 0.980219, b: 0.7216981, a: 1}
-  hitBlinkTime: 0.2
   maxHealth: 10
   deathObject: {fileID: 5429022461350307393, guid: 11567082dc99de143ae596def8c6d069,
     type: 3}
-  leftEye: {fileID: 7231371579983718124}
-  rightEye: {fileID: 7231371579190736872}
-  midBody: {fileID: 7231371578898529174}
-  tail: {fileID: 7231371579481385133}
-  playerSpawnDelay: 3
-  OnDied:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 1
-        m_CallState: 2
-  OnStart:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  _currentHealth: 0
+  maxY: -20
+  spawnDelay: 3
+  deathScream: {fileID: 2582221314626320339}
+  fXSource: {fileID: 0}
 --- !u!114 &7231371578558481656
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -302,10 +267,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 6
-  maxSpeed: 32
+  maxSpeed: 24
   jumpForce: 24
-  jumpMod: 2
-  fallRate: 4
+  jumpMod: 12
+  fallRate: 16
   groundLayer:
     serializedVersion: 2
     m_Bits: 2056
@@ -316,7 +281,11 @@ MonoBehaviour:
   justJumped: {fileID: 11400000, guid: ee4094913401de74db0a254556ee3817, type: 2}
   isAttacking: {fileID: 11400000, guid: 89de0378d0da15c4fa5539cbb102fc21, type: 2}
   isMoving: {fileID: 11400000, guid: 9e99359aaa157d54cace82df37d46f64, type: 2}
---- !u!114 &7231371578558481659
+  leftEye: {fileID: 7231371579983718124}
+  rightEye: {fileID: 7231371579190736872}
+  currentSpawnLocation: {fileID: 11400000, guid: 80af4009691e2204c8f80ca5ad63d2ce,
+    type: 2}
+--- !u!114 &2582221314626320339
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -325,16 +294,21 @@ MonoBehaviour:
   m_GameObject: {fileID: 7231371578558481650}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 00475eedffd5ad24188aef0c92b33606, type: 3}
+  m_Script: {fileID: 11500000, guid: 00f9c1a97b9acee44a0568762eb198aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  leftEyeAnimator: {fileID: 7231371579983718125}
-  rightEyeAnimator: {fileID: 7231371579190736873}
-  triggerName: Blink
-  chanceToBlink: 0.25
-  blinkEyes:
-  - {fileID: 11400000, guid: ee4094913401de74db0a254556ee3817, type: 2}
-  - {fileID: 11400000, guid: 63b0f8c98d8c7354eb404c2fd2f8c9ff, type: 2}
+  clips:
+  - {fileID: 8300000, guid: 47e18138f50e0c54b813b834f6bc5b79, type: 3}
+  - {fileID: 8300000, guid: 10986758b9f96ae48a4d6c82e3298680, type: 3}
+  - {fileID: 8300000, guid: 754f7a54342e7e64bb2cfd6c3bf1cd9c, type: 3}
+  - {fileID: 8300000, guid: 4eb4eab055e287e49832ecc25633f9a7, type: 3}
+  - {fileID: 8300000, guid: f24acc3fe0897f44fa2373e2d4a871c4, type: 3}
+  - {fileID: 8300000, guid: 2f0945bc9d2a58d46b6577b5326d1d4c, type: 3}
+  - {fileID: 8300000, guid: c0fd3f00929ea56428b6a2c83e204aa7, type: 3}
+  minMaxVolume: {x: 1, y: 1}
+  minMaxPitch: {x: 1.2, y: 1.2}
+  checkIfPlaying: 0
+  masterVolume: {fileID: 0}
 --- !u!1 &7231371578898529174
 GameObject:
   m_ObjectHideFlags: 0
@@ -412,7 +386,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: -1
   m_Sprite: {fileID: 21300000, guid: 1da7cae4ab85b8e43a32673e098369ef, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.1254902, g: 0.1254902, b: 0.1254902, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -464,7 +438,7 @@ Rigidbody2D:
   m_LinearDrag: 0
   m_AngularDrag: 0.1
   m_GravityScale: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 0accc6043dc7d654889df031612780f9, type: 2}
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
@@ -503,10 +477,9 @@ GameObject:
   m_Component:
   - component: {fileID: 7231371579190736875}
   - component: {fileID: 7231371579190736874}
-  - component: {fileID: 7231371579190736873}
   m_Layer: 0
   m_Name: RightEye
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -566,8 +539,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 1
-  m_Sprite: {fileID: -9092828279365600596, guid: fac60d0ac7581b14cb99d0e1e5801d7c,
-    type: 3}
+  m_Sprite: {fileID: 724634808299494974, guid: fac60d0ac7581b14cb99d0e1e5801d7c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -578,25 +550,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!95 &7231371579190736873
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7231371579190736872}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: f7146f76eac8fec4ba8829353fda10c6, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &7231371579481385133
 GameObject:
   m_ObjectHideFlags: 0
@@ -673,7 +626,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: -3
   m_Sprite: {fileID: 21300000, guid: 20ae363d92b3f564d9bf2721c1c73aba, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.1254902, g: 0.1254902, b: 0.1254902, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -734,7 +687,7 @@ Rigidbody2D:
   m_LinearDrag: 0
   m_AngularDrag: 0.1
   m_GravityScale: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 0accc6043dc7d654889df031612780f9, type: 2}
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
@@ -773,10 +726,9 @@ GameObject:
   m_Component:
   - component: {fileID: 7231371579983718127}
   - component: {fileID: 7231371579983718126}
-  - component: {fileID: 7231371579983718125}
   m_Layer: 0
   m_Name: LeftEye
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -836,8 +788,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 1
-  m_Sprite: {fileID: -9092828279365600596, guid: fac60d0ac7581b14cb99d0e1e5801d7c,
-    type: 3}
+  m_Sprite: {fileID: 724634808299494974, guid: fac60d0ac7581b14cb99d0e1e5801d7c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -848,22 +799,3 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!95 &7231371579983718125
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7231371579983718124}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: f7146f76eac8fec4ba8829353fda10c6, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0

@@ -4,8 +4,9 @@ using UnityEngine;
 
 public class SpawnPointSetter : MonoBehaviour
 {
+    [SerializeField] GlobalVector2 spawnPoint;
     void OnTriggerEnter2D(Collider2D other) {
         if (other.CompareTag("Player"))
-           PlayerRigidMovement.currentSpawnLocation = transform.position; 
+           spawnPoint.Value = transform.position; 
     }
 }

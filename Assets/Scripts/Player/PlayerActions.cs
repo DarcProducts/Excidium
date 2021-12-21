@@ -11,4 +11,6 @@ public class PlayerActions : MonoBehaviour
         if (canUseAction.Value)
             actionPressed.Value = true;
     }
+
+    public void OnMenu() => GameManager.S.Menu();
 }

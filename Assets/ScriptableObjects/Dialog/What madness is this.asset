@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dialog: What strange madness is this?!
   displayLength: 1.5
+  dialogClip: {fileID: 8300000, guid: f0c2b2b8bf450b848ba15ab70bb76962, type: 3}
+  volume: {x: 0.6, y: 0.6}
+  pitch: {x: 1.3, y: 1.3}
+  volumeControl: {fileID: 11400000, guid: 58d055c3df255a247b4e5b53ff23e4a5, type: 2}
   hasBeenRead: 0
-  clip: {fileID: 0}
-  volume: {x: 1, y: 1}
-  pitch: {x: 2, y: 2}
-  checkIfPlaying: 0

@@ -1,51 +1,59 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using TMPro;
+using UnityEngine;
 
 public class DialogManager : MonoBehaviour
 {
     public static DialogManager S;
-    [SerializeField] GameObject dialogGameObject;
-    [SerializeField] TMP_Text dialogText;
-    [SerializeField] float messageTime;
-    bool hasStarted = false;
-    float _currentTime;
-    [SerializeField] Queue<Dialog> dialogQueue = new Queue<Dialog>();
-    [SerializeField] AudioSource dialogAudioSource;
+    [SerializeField] private GameObject dialogGameObject;
+    [SerializeField] private TMP_Text dialogText;
+    [SerializeField] private float messageTime;
+    [SerializeField] GlobalFloat dialogVolume;
+    private bool hasStarted = false;
+    private float _currentTime;
+    [SerializeField] private Queue<Dialog> dialogQueue = new Queue<Dialog>();
+    [SerializeField] private AudioSource dialogAudioSource;
 
-    void Awake() => S = this;
+    private void Awake() => S = this;
 
-    void Start() => dialogGameObject.SetActive(false);
+    private void Start() => dialogGameObject.SetActive(false);
 
-    void Update()
+    private void Update()
     {
         if (!hasStarted && dialogQueue.Count > 0)
             StartCoroutine(nameof(DisplayMessage));
     }
 
-    void ShowDialogBox() => dialogGameObject.SetActive(true);
+    private void ShowDialogBox() => dialogGameObject.SetActive(true);
 
-    void HideDialogBox() => dialogGameObject.SetActive(false);
+    private void HideDialogBox() => dialogGameObject.SetActive(false);
 
     public void AddMessage(Dialog message) => dialogQueue.Enqueue(message);
 
     public void ClearDialog() => dialogQueue.Clear();
 
-    IEnumerator DisplayMessage()
+    public void StopDialog()
+    {
+        dialogText.text = "";
+        StopCoroutine(nameof(DisplayMessage));
+        dialogQueue.Clear();
+        dialogAudioSource.Stop();
+    }
+
+    private IEnumerator DisplayMessage()
     {
         hasStarted = true;
         ShowDialogBox();
         Dialog message = dialogQueue.Dequeue();
-        AudioClip clip = message.clip;
         dialogText.text = message.dialog;
-        if (clip != null)
-        {
-            message.TriggerAudio(dialogAudioSource);
-            yield return new WaitForSeconds(message.clip.length);
-        }
+        message.volumeControl = dialogVolume.Value;
+
+        if (message.dialogClip != null)
+            yield return new WaitForSeconds(message.TriggerAudio(dialogAudioSource));
         else
-            yield return new WaitForSeconds(messageTime);
+            yield return new WaitForSeconds(message.displayLength);
+
         HideDialogBox();
         hasStarted = false;
     }

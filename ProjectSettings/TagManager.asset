@@ -8,6 +8,10 @@ TagManager:
   - Acid
   - AcidDummyPool
   - PussSack
+  - HealthBar
+  - FXSource
+  - PlayerFXSource
+  - PlayerBody
   layers:
   - Default
   - TransparentFX

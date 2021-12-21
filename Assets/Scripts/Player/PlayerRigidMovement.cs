@@ -17,12 +17,16 @@ public class PlayerRigidMovement : MonoBehaviour
 
     [SerializeField] GlobalBool isAttacking;
     [SerializeField] GlobalBool isMoving;
-    public static Vector2 currentSpawnLocation;
+    [SerializeField] GameObject leftEye, rightEye;
+    [SerializeField] GlobalVector2 currentSpawnLocation;
     Rigidbody2D rb;
 
-    void Awake() => rb = GetComponent<Rigidbody2D>();
+    void Awake()
+    {
+        rb = GetComponent<Rigidbody2D>();
+    }
 
-    void Start() => currentSpawnLocation = transform.position;
+    void Start() => currentSpawnLocation.Value = transform.position;
 
     void Update() => MovePlayer();
 
@@ -46,6 +50,11 @@ public class PlayerRigidMovement : MonoBehaviour
     void MovePlayer()
     {
         float currentSpeed = rb.velocity.magnitude;
+        if (Time.timeScale > 0)
+        {
+            rightEye.SetActive(movement.x >= 0);
+            leftEye.SetActive(movement.x <= 0);
+        }
         if (currentSpeed > maxSpeed)
             rb.velocity = rb.velocity.normalized * currentSpeed;
         if (canMove.Value && !isAttacking.Value)

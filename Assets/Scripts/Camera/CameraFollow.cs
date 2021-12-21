@@ -8,12 +8,20 @@ public class CameraFollow : MonoBehaviour
     [SerializeField] Transform targetTransform;
     [SerializeField] Vector3 cameraOffset;
     [SerializeField] float cameraFollowSpeed;
+    [SerializeField] float maxDistance;
+    float currentSpeed;
+    Vector2 startingPos;
     float cameraZPos;
     // Start is called before the first frame update
 
     void Awake() => S = this;
 
-    void Start() => cameraZPos = transform.position.z;
+    void Start()
+    {
+        currentSpeed = cameraFollowSpeed;
+        startingPos = transform.position;
+        cameraZPos = transform.position.z;
+    }
 
     public void NullTarget() => targetTransform = null;
 
@@ -26,7 +34,11 @@ public class CameraFollow : MonoBehaviour
         {
             Vector3 currentPos = transform.position;
             Vector3 newPos = new Vector3(targetTransform.position.x, targetTransform.position.y, cameraZPos) + cameraOffset;
-            transform.position = Vector3.Lerp(currentPos, newPos, cameraFollowSpeed * Time.fixedDeltaTime);
+            transform.position = Vector3.Lerp(currentPos, newPos, currentSpeed * Time.fixedDeltaTime);
         }
+        if (Vector2.Distance(transform.position, startingPos) > maxDistance)
+            currentSpeed = Mathf.Pow(cameraFollowSpeed, 2);
+        else
+            currentSpeed = cameraFollowSpeed;            
     }
 }

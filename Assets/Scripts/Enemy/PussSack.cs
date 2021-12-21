@@ -16,6 +16,8 @@ public class PussSack : MonoBehaviour, ICauseDamage
     [SerializeField] Vector2 pussDirection;
     [SerializeField] Vector2 pussSize;
     [Range(0f, 1f)] [SerializeField] float hitMagnitude;
+    [SerializeField] AudioTrigger launchFX;
+    [SerializeField] AudioSource fxSource;
 
 
     void Awake() => sRend = GetComponent<SpriteRenderer>();
@@ -51,6 +53,8 @@ public class PussSack : MonoBehaviour, ICauseDamage
             {
                 pRB.AddForce(pussForce * pussDirection, ForceMode2D.Impulse);
                 pRB.AddTorque(rotDir * Mathf.Pow(pussForce, 2));
+                if (launchFX != null)
+                    launchFX.Trigger(fxSource);
             }
             currentDuration = duration;
         }

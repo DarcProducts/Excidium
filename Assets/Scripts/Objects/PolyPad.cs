@@ -3,9 +3,14 @@ using UnityEngine;
 public class PolyPad : MonoBehaviour
 {
     [SerializeField] float bounceForce;
-
+    [SerializeField] AudioTrigger audioTrigger;
+    [SerializeField] AudioSource source;
+    [SerializeField] LayerMask playerLayer;
+    
     void OnCollisionEnter2D(Collision2D other) {
-        if (other.gameObject.CompareTag("Player"))
+        if (audioTrigger != null && source != null)
+            audioTrigger.Trigger(source);
+        if (Utils.IsInLayerMask(other.gameObject, playerLayer))
         {
             Rigidbody2D playerRB = other.gameObject.GetComponent<Rigidbody2D>();
             Vector2 veloc = playerRB.velocity;
